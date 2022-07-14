@@ -44,8 +44,8 @@ class AboutGenerators(Koan):
         attempt1 = list(dynamite)
         attempt2 = list(dynamite)
 
-        self.assertEqual(__, attempt1)
-        self.assertEqual(__, attempt2)
+        self.assertEqual(__, list(attempt1))
+        self.assertEqual(__, list(attempt2))
 
     # ------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ class AboutGenerators(Koan):
             result.append(item)
         self.assertEqual(__, result)
 
-    def test_generators_can_be_manually_iterated_and_closed(self):
+    def test_coroutines_can_take_arguments(self):
         result = self.simple_generator_method()
         self.assertEqual(__, next(result))
         self.assertEqual(__, next(result))
@@ -92,12 +92,12 @@ class AboutGenerators(Koan):
 
     # ------------------------------------------------------------------
 
-    def coroutine(self):
+    def generator_with_coroutine(self):
         result = yield
         yield result
 
-    def test_generators_can_act_as_coroutines(self):
-        generator = self.coroutine()
+    def test_generators_can_take_coroutines(self):
+        generator = self.generator_with_coroutine()
 
         # THINK ABOUT IT:
         # Why is this line necessary?
@@ -109,12 +109,14 @@ class AboutGenerators(Koan):
         self.assertEqual(__, generator.send(1 + 2))
 
     def test_before_sending_a_value_to_a_generator_next_must_be_called(self):
-        generator = self.coroutine()
+        generator = self.generator_with_coroutine()
 
         try:
-            generator.send(1 + 2)
+            generator.send(1+2)
         except TypeError as ex:
-            self.assertRegex(ex.args[0], __)
+          ex2 = ex
+
+        self.assertRegexpMatches(ex2.args[0], __)
 
     # ------------------------------------------------------------------
 

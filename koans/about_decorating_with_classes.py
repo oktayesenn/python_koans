@@ -125,4 +125,3 @@ class AboutDecoratingWithClasses(Koan):
     def test_we_can_chain_decorators(self):
         self.assertEqual(__, self.homer())
         self.assertEqual(__, self.homer.__doc__)
-

@@ -36,19 +36,19 @@ class AboutAttributeAccess(Koan):
     def test_all_attribute_reads_are_caught(self):
         catcher = self.CatchAllAttributeReads()
 
-        self.assertRegex(catcher.foobar, __)
+        self.assertRegexpMatches(catcher.foobar, __)
 
     def test_intercepting_return_values_can_disrupt_the_call_chain(self):
         catcher = self.CatchAllAttributeReads()
 
-        self.assertRegex(catcher.foobaz, __) # This is fine
+        self.assertRegexpMatches(catcher.foobaz, __) # This is fine
 
         try:
             catcher.foobaz(1)
         except TypeError as ex:
             err_msg = ex.args[0]
 
-        self.assertRegex(err_msg, __)
+        self.assertRegexpMatches(err_msg, __)
 
         # foobaz returns a string. What happens to the '(1)' part?
         # Try entering this into a python console to reproduce the issue:
@@ -59,7 +59,7 @@ class AboutAttributeAccess(Koan):
     def test_changes_to_the_getattribute_implementation_affects_getattr_function(self):
         catcher = self.CatchAllAttributeReads()
 
-        self.assertRegex(getattr(catcher, 'any_attribute'), __)
+        self.assertRegexpMatches(getattr(catcher, 'any_attribute'), __)
 
     # ------------------------------------------------------------------
 
@@ -93,8 +93,7 @@ class AboutAttributeAccess(Koan):
             self.no_of_getattribute_calls = 0
 
         def __getattribute__(self, attr_name):
-            # We need something that is outside the scope of this class:
-            global stack_depth
+            global stack_depth # We need something that is outside the scope of this class
             stack_depth += 1
 
             if stack_depth<=10: # to prevent a stack overflow
